@@ -18,9 +18,7 @@ public class Sort extends AnAction {
     @Override
     public void actionPerformed(AnActionEvent e) {
         Project project = e.getData(PlatformDataKeys.PROJECT);
-
         PsiFile psiFile = e.getData(LangDataKeys.PSI_FILE);
-
         Editor editor = e.getData(PlatformDataKeys.EDITOR);
 
         if (psiFile == null || editor == null) {
