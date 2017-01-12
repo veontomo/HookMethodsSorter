@@ -2,7 +2,7 @@
     <id>ccm.veontomo.hookmethodssorter.</id>
     <name>Hook Methods' Sorter</name>
     <version>1.0</version>
-    <vendor email="" url="http://www.yourcompany.com">Veontomo</vendor>
+    <vendor email="" url="">Veontomo</vendor>
 
     <description><![CDATA[
     The plugin orders well-known methods (hook ones), like <em>onStart</em>, <em>onCreate</em> etc. for Android apps.
