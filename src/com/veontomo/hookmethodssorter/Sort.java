@@ -43,7 +43,16 @@ public class Sort extends AnAction {
         new WriteCommandAction.Simple(aClass.getProject(), aClass.getContainingFile()) {
             @Override
             protected void run() throws Throwable {
-                Messages.showMessageDialog(aClass.getProject(), "Sorting class " + aClass.getName(), "Info", Messages.getInformationIcon());
+                PsiMethod[] methods = aClass.getMethods();
+                int len = methods.length;
+                Messages.showMessageDialog(aClass.getProject(), "Sorting class " + aClass.getName() + " with " + len + " methods.", "Info", Messages.getInformationIcon());
+                if (len > 2) {
+                    PsiMethod method = aClass.getMethods()[2];
+                    Messages.showMessageDialog(aClass.getProject(), "Removing method  " + method.getName() + " in class " + aClass.getName(), "Info", Messages.getInformationIcon());
+                    method.delete();
+//                    aClass.addBefore(methods[len - 2], elem);
+
+                }
             }
         }.execute();
     }
