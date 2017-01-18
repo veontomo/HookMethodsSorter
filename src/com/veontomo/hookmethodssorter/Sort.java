@@ -45,11 +45,15 @@ public class Sort extends AnAction {
             protected void run() throws Throwable {
                 PsiMethod[] methods = aClass.getMethods();
                 int len = methods.length;
-                Messages.showMessageDialog(aClass.getProject(), "Sorting class " + aClass.getName() + " with " + len + " methods.", "Info", Messages.getInformationIcon());
+//                Messages.showMessageDialog(aClass.getProject(), "Sorting class " + aClass.getName() + " with " + len + " methods.", "Info", Messages.getInformationIcon());
                 if (len > 2) {
-                    PsiMethod method = aClass.getMethods()[2];
-                    Messages.showMessageDialog(aClass.getProject(), "Removing method  " + method.getName() + " in class " + aClass.getName(), "Info", Messages.getInformationIcon());
-                    method.delete();
+                    PsiMethod anchor = aClass.getMethods()[0];
+                    PsiMethod elem = aClass.getMethods()[len - 2];
+//                    Messages.showMessageDialog(aClass.getProject(), "Removing method  " + elem.getName() + " in class " + aClass.getName(), "Info", Messages.getInformationIcon());
+//                    String oldName = elem.getName();
+//                    elem.setName(oldName  + "A");
+//                    aClass.getNavigationElement();
+                    aClass.getNavigationElement().addBefore(elem.getNavigationElement(), anchor.getNavigationElement());
 //                    aClass.addBefore(methods[len - 2], elem);
 
                 }
