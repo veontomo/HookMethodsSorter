@@ -22,8 +22,8 @@
       <file leaf-file-name="Sort.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/veontomo/hookmethodssorter/Sort.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="340">
-              <caret line="50" column="63" lean-forward="false" selection-start-line="50" selection-start-column="63" selection-end-line="50" selection-end-column="63" />
+            <state relative-caret-position="301">
+              <caret line="57" column="0" lean-forward="false" selection-start-line="57" selection-start-column="0" selection-end-line="57" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -442,7 +442,7 @@
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Nl-Palette" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="simpleUML" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32936078" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -478,12 +478,12 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/com/veontomo/hookmethodssorter/Sort.java</url>
-          <line>45</line>
+          <line>50</line>
           <properties />
-          <option name="timeStamp" value="4" />
+          <option name="timeStamp" value="7" />
         </line-breakpoint>
       </breakpoints>
-      <option name="time" value="5" />
+      <option name="time" value="8" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -818,10 +818,67 @@
         </state>
       </provider>
     </entry>
+    <entry file="jar://$APPLICATION_HOME_DIR$/lib/openapi.jar!/com/intellij/openapi/command/WriteCommandAction.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="403">
+          <caret line="210" column="4" lean-forward="false" selection-start-line="210" selection-start-column="4" selection-end-line="210" selection-end-column="4" />
+          <folding>
+            <marker date="1484727268756" expanded="false" signature="0:104" ph="/.../" />
+            <marker date="1484727268756" expanded="false" signature="152:1162" ph="..." />
+            <marker date="1484727268756" expanded="false" signature="1581:1592" ph=" { " />
+            <marker date="1484727268756" expanded="false" signature="1626:1632" ph=" }" />
+            <marker date="1484727268756" expanded="true" signature="1742:1806" ph="{...}" />
+            <marker date="1484727268756" expanded="true" signature="1942:2265" ph="{...}" />
+            <marker date="1484727268756" expanded="false" signature="2304:2315" ph=" { " />
+            <marker date="1484727268756" expanded="false" signature="2337:2343" ph=" }" />
+            <marker date="1484727268756" expanded="false" signature="2385:2396" ph=" { " />
+            <marker date="1484727268756" expanded="false" signature="2422:2428" ph=" }" />
+            <marker date="1484727268756" expanded="false" signature="2460:2471" ph=" { " />
+            <marker date="1484727268756" expanded="false" signature="2493:2499" ph=" }" />
+            <marker date="1484727268756" expanded="true" signature="2548:3555" ph="{...}" />
+            <marker date="1484727268756" expanded="false" signature="3202:3262" ph="run() → {" />
+            <marker date="1484727268756" expanded="false" signature="3370:3397" ph="}" />
+            <marker date="1484727268756" expanded="true" signature="3630:4287" ph="{...}" />
+            <marker date="1484727268756" expanded="false" signature="3842:3894" ph="run() → {" />
+            <marker date="1484727268756" expanded="false" signature="4250:4269" ph="}" />
+            <marker date="1484727268756" expanded="false" signature="4331:4342" ph=" { " />
+            <marker date="1484727268756" expanded="false" signature="4355:4361" ph=" }" />
+            <marker date="1484727268756" expanded="true" signature="4428:4502" ph="{...}" />
+            <marker date="1484727268756" expanded="false" signature="4563:4574" ph=" { " />
+            <marker date="1484727268756" expanded="false" signature="4586:4592" ph=" }" />
+            <marker date="1484727268756" expanded="true" signature="4644:5099" ph="{...}" />
+            <marker date="1484727268756" expanded="false" signature="4791:4839" ph="run() → {" />
+            <marker date="1484727268756" expanded="false" signature="4947:4962" ph="}" />
+            <marker date="1484727268756" expanded="true" signature="5160:5722" ph="{...}" />
+            <marker date="1484727268756" expanded="false" signature="5197:5245" ph="run() → {" />
+            <marker date="1484727268756" expanded="false" signature="5489:5504" ph="}" />
+            <marker date="1484727268756" expanded="true" signature="5814:5914" ph="{...}" />
+            <marker date="1484727268756" expanded="true" signature="6119:6325" ph="{...}" />
+            <marker date="1484727268756" expanded="true" signature="6198:6307" ph="{...}" />
+            <marker date="1484727268756" expanded="true" signature="6250:6297" ph="{...}" />
+            <marker date="1484727268756" expanded="true" signature="6437:6697" ph="{...}" />
+            <marker date="1484727268756" expanded="true" signature="6503:6661" ph="{...}" />
+            <marker date="1484727268756" expanded="true" signature="6580:6651" ph="{...}" />
+            <marker date="1484727268756" expanded="true" signature="6851:7288" ph="{...}" />
+            <marker date="1484727268756" expanded="true" signature="6933:7091" ph="{...}" />
+            <marker date="1484727268756" expanded="true" signature="7010:7081" ph="{...}" />
+            <marker date="1484727268756" expanded="true" signature="7294:7312" ph="/**...*/" />
+            <marker date="1484727268756" expanded="true" signature="7424:7522" ph="{...}" />
+            <marker date="1484727268756" expanded="true" signature="7597:8169" ph="{...}" />
+            <marker date="1484727268756" expanded="false" signature="7658:7673" ph=" { " />
+            <marker date="1484727268756" expanded="false" signature="7695:7705" ph=" }" />
+            <marker date="1484727268756" expanded="false" signature="7786:7801" ph=" { " />
+            <marker date="1484727268756" expanded="false" signature="7836:7846" ph=" }" />
+            <marker date="1484727268756" expanded="true" signature="7937:7998" ph="{...}" />
+            <marker date="1484727268756" expanded="true" signature="8071:8106" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/veontomo/hookmethodssorter/Sort.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="50" column="63" lean-forward="false" selection-start-line="50" selection-start-column="63" selection-end-line="50" selection-end-column="63" />
+        <state relative-caret-position="301">
+          <caret line="57" column="0" lean-forward="false" selection-start-line="57" selection-start-column="0" selection-end-line="57" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>

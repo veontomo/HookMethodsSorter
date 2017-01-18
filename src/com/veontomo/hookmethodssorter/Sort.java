@@ -1,11 +1,16 @@
 package com.veontomo.hookmethodssorter;
 
+import com.intellij.lang.ASTNode;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.LangDataKeys;
 import com.intellij.openapi.command.WriteCommandAction;
 import com.intellij.openapi.ui.Messages;
 import com.intellij.psi.*;
+import com.intellij.psi.util.PsiClassUtil;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Sort well-known methods (hook ones).
@@ -47,14 +52,11 @@ public class Sort extends AnAction {
                 int len = methods.length;
 //                Messages.showMessageDialog(aClass.getProject(), "Sorting class " + aClass.getName() + " with " + len + " methods.", "Info", Messages.getInformationIcon());
                 if (len > 2) {
-                    PsiMethod anchor = aClass.getMethods()[0];
-                    PsiMethod elem = aClass.getMethods()[len - 2];
-//                    Messages.showMessageDialog(aClass.getProject(), "Removing method  " + elem.getName() + " in class " + aClass.getName(), "Info", Messages.getInformationIcon());
-//                    String oldName = elem.getName();
-//                    elem.setName(oldName  + "A");
-//                    aClass.getNavigationElement();
-                    aClass.getNavigationElement().addBefore(elem.getNavigationElement(), anchor.getNavigationElement());
-//                    aClass.addBefore(methods[len - 2], elem);
+                    PsiElement elem1 = methods[0].getNavigationElement();
+                    PsiElement elem2 = methods[1].getNavigationElement();
+                    PsiElement parent = elem1.getParent();
+                    parent.addAfter(elem1, elem2);
+                    elem1.getNavigationElement().delete();
 
                 }
             }
