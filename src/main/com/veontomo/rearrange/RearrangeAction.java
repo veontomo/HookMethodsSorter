@@ -58,28 +58,49 @@ public class RearrangeAction extends AnAction {
             @Override
             protected void run() throws Throwable {
                 Sorter sorter = new Sorter();
-                final String separator = System.getProperty("line.separator");
-                StringBuilder builder = new StringBuilder();
                 PsiMethod[] methods = aClass.getMethods();
                 PsiField[] fields = aClass.getFields();
-                PsiMethod[] sorted = sorter.sort(methods, BASIC_METHOD_NAMES);
+                PsiMethod[] sorted = sorter.lineupFilter(methods, BASIC_METHOD_NAMES);
 
+                PsiElement first = getFirstMethodOrField(aClass);
 
-                builder.append("Fields: ");
-                for (PsiField field : fields) {
-                    builder.append(field.getName()).append(", ");
+                if (first == null) return;
+                Messages.showMessageDialog(aClass.getProject(), "first: " + first.getText(), "Info", Messages.getInformationIcon());
+                PsiElement first2 = first.getNavigationElement();
+                PsiElement parent = first2.getParent();
+                if (parent != null) {
+
+                    Messages.showMessageDialog(aClass.getProject(), "parent is found", "Info", Messages.getInformationIcon());
+                    for (PsiElement field : fields) {
+                        parent.addBefore(field.getNavigationElement(), first2);
+                    }
+                    for (PsiElement method : sorted) {
+                        parent.addBefore(method.getNavigationElement(), first2);
+                    }
+                }
+                for (PsiElement field : fields) {
+                    field.getNavigationElement().delete();
+                }
+                for (PsiElement method : sorted) {
+                    method.getNavigationElement().delete();
                 }
 
-                builder.append(separator).append("Original methods: ");
-                for (PsiMethod method : methods) {
-                    builder.append(method.getName()).append(", ");
-                }
-                builder.append(separator).append("Sorted methods: ");
-                for (PsiMethod method : sorted) {
-                    builder.append(method.getName()).append(", ");
-                }
-                Messages.showMessageDialog(aClass.getProject(), builder.toString(), "Info", Messages.getInformationIcon());
 
+//                builder.append("Fields: ");
+//                for (PsiField field : fields) {
+//                    builder.append(field.getName()).append(", ");
+//                }
+//
+//                builder.append(separator).append("All methods: ");
+//                for (PsiMethod method : methods) {
+//                    builder.append(method.getName()).append(", ");
+//                }
+//                builder.append(separator).append("First methods: ");
+//                for (PsiMethod method : sorted) {
+//                    builder.append(method.getName()).append(", ");
+//                }
+//                Messages.showMessageDialog(aClass.getProject(), builder.toString(), "Info", Messages.getInformationIcon());
+//
 //                int len = BASIC_METHOD_NAMES.length;
 //                if (len > 2) {
 //                    PsiElement elem1 = BASIC_METHOD_NAMES[0].getNavigationElement();
@@ -91,6 +112,22 @@ public class RearrangeAction extends AnAction {
 //                }
             }
         }.execute();
+    }
+
+    /**
+     * Return the first child that is either a field or a method.
+     *
+     * @param aClass
+     * @return
+     */
+    private PsiElement getFirstMethodOrField(final PsiClass aClass) {
+        PsiElement[] children = aClass.getNavigationElement().getChildren();
+        for (PsiElement child : children) {
+            if (child instanceof PsiMethod || child instanceof PsiField) {
+                return child;
+            }
+        }
+        return null;
     }
 
 
