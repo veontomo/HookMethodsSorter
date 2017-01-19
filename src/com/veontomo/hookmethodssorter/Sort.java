@@ -1,16 +1,16 @@
 package com.veontomo.hookmethodssorter;
 
-import com.intellij.lang.ASTNode;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.LangDataKeys;
 import com.intellij.openapi.command.WriteCommandAction;
+import com.intellij.openapi.compiler.CompilationException;
 import com.intellij.openapi.ui.Messages;
 import com.intellij.psi.*;
-import com.intellij.psi.util.PsiClassUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+
 
 /**
  * Sort well-known methods (hook ones).
@@ -48,31 +48,44 @@ public class Sort extends AnAction {
         new WriteCommandAction.Simple(aClass.getProject(), aClass.getContainingFile()) {
             @Override
             protected void run() throws Throwable {
+                final String separator = System.getProperty("line.separator");
+                StringBuilder builder = new StringBuilder();
                 PsiMethod[] methods = aClass.getMethods();
-                int len = methods.length;
-//                Messages.showMessageDialog(aClass.getProject(), "Sorting class " + aClass.getName() + " with " + len + " methods.", "Info", Messages.getInformationIcon());
-                if (len > 2) {
-                    PsiElement elem1 = methods[0].getNavigationElement();
-                    PsiElement elem2 = methods[1].getNavigationElement();
-                    PsiElement parent = elem1.getParent();
-                    parent.addAfter(elem1, elem2);
-                    elem1.getNavigationElement().delete();
-
+                PsiField[] fields = aClass.getFields();
+                builder.append("Fields: ");
+                for (PsiField field : fields) {
+                    builder.append(field.getName()).append(", ");
                 }
+                builder.append(separator).append("Methods: ");
+
+                for (PsiMethod method : methods) {
+                    builder.append(method.getName()).append(", ");
+                }
+                Messages.showMessageDialog(aClass.getProject(), builder.toString(), "Info", Messages.getInformationIcon());
+
+//                int len = methods.length;
+//                if (len > 2) {
+//                    PsiElement elem1 = methods[0].getNavigationElement();
+//                    PsiElement elem2 = methods[1].getNavigationElement();
+//                    PsiElement parent = elem1.getParent();
+//                    parent.addAfter(elem1, elem2);
+//                    elem1.getNavigationElement().delete();
+//
+//                }
             }
         }.execute();
     }
 
 
     /**
+     * Determine classes that the currently open file contains
      * @param e the action event that occurred
-     * @return The PSIClass object based on which class your mouse cursor was in
+     * @return array of PsiClass instances
      */
     private PsiClass[] getPsiClasses(AnActionEvent e) {
         PsiFile psiFile = e.getData(LangDataKeys.PSI_FILE);
-        PsiClassOwner owner = (PsiClassOwner) psiFile;
-        if (owner != null) {
-            return owner.getClasses();
+        if (psiFile != null && psiFile instanceof PsiClassOwner) {
+            return ((PsiClassOwner) psiFile).getClasses();
         }
         return null;
 
