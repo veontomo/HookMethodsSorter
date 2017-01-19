@@ -22,7 +22,7 @@ public class Sorter {
      * @param order   list of methods name. Require that the list contains no pair of equal strings.
      * @return
      */
-    public PsiElement[] sort(final PsiMethod[] methods, final String[] order) {
+    public PsiMethod[] sort(final PsiMethod[] methods, final String[] order) {
         PsiMethod[] result = new PsiMethod[methods.length];
         // create an index of methods. Some methods might have equal names.
         Map<String, List<PsiMethod>> index = getIndex(methods);

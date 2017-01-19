@@ -62,15 +62,20 @@ public class RearrangeAction extends AnAction {
                 StringBuilder builder = new StringBuilder();
                 PsiMethod[] methods = aClass.getMethods();
                 PsiField[] fields = aClass.getFields();
-                PsiElement[] sorted = sorter.sort(methods, BASIC_METHOD_NAMES);
+                PsiMethod[] sorted = sorter.sort(methods, BASIC_METHOD_NAMES);
+
 
                 builder.append("Fields: ");
                 for (PsiField field : fields) {
                     builder.append(field.getName()).append(", ");
                 }
-                builder.append(separator).append("Methods: ");
 
+                builder.append(separator).append("Original methods: ");
                 for (PsiMethod method : methods) {
+                    builder.append(method.getName()).append(", ");
+                }
+                builder.append(separator).append("Sorted methods: ");
+                for (PsiMethod method : sorted) {
                     builder.append(method.getName()).append(", ");
                 }
                 Messages.showMessageDialog(aClass.getProject(), builder.toString(), "Info", Messages.getInformationIcon());
