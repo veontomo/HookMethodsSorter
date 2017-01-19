@@ -26,12 +26,14 @@ import java.util.List;
  */
 class DumbFactory {
     /**
-     * Create a psi image of a method with given name
-     * @param name
-     * @return
+     * Create a psi method corresponding to a method with given name.
+     *
+     * It returns a stub instance that implements just one method "getName()".
+     * @param name a string to be returned on a getName() call.
+     * @return a stub instance
      */
     PsiMethod createMethod(final String name) {
-        PsiMethod method = new PsiMethod() {
+        return new PsiMethod() {
             @Nullable
             @Override
             public PsiType getReturnType() {
@@ -481,7 +483,5 @@ class DumbFactory {
 
             }
         };
-        method.setName(name);
-        return method;
     }
 }
