@@ -4,18 +4,27 @@ import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.LangDataKeys;
 import com.intellij.openapi.command.WriteCommandAction;
-import com.intellij.openapi.compiler.CompilationException;
 import com.intellij.openapi.ui.Messages;
 import com.intellij.psi.*;
 
-import java.util.ArrayList;
-import java.util.List;
-
 
 /**
- * Sort well-known methods (hook ones).
+ * Plugin for rearrange fields and methods of classes found in a file that is currently open in the
+ * Intellij IDEA IDE.
+ * <p>
+ * After applying this plugin, a class must have fields and methods being ordered as follows:
+ * 1. fields
+ * 2. basic methods
+ * 3. other methods
  */
-public class Sort extends AnAction {
+public class RearrangeAction extends AnAction {
+    /**
+     * list of basic method names that should be ordered according to their indexes in the array:
+     */
+    private final String[] BASIC_METHODS_NAME = {
+            "onAttach", "onCreate", "onCreateView", "onViewCreated", "onActivityCreated", "onViewStateRestored",
+            "onRestart", "onStart", "onResume", "onPause", "onStop", "onDestroyView", "onDestroy", "onDetach"
+    };
 
     @Override
     public void actionPerformed(AnActionEvent e) {
@@ -40,14 +49,15 @@ public class Sort extends AnAction {
     }
 
     /**
-     * Order the class methods in a predefined way.
+     * Order the class BASIC_METHODS_NAME in a predefined way.
      *
-     * @param aClass a class whose methods/properties are to be ordered.
+     * @param aClass a class whose BASIC_METHODS_NAME/properties are to be ordered.
      */
     private void elaborateSingleClass(final PsiClass aClass) {
         new WriteCommandAction.Simple(aClass.getProject(), aClass.getContainingFile()) {
             @Override
             protected void run() throws Throwable {
+                Sorter sorter = new Sorter(BASIC_METHODS_NAME);
                 final String separator = System.getProperty("line.separator");
                 StringBuilder builder = new StringBuilder();
                 PsiMethod[] methods = aClass.getMethods();
@@ -63,10 +73,10 @@ public class Sort extends AnAction {
                 }
                 Messages.showMessageDialog(aClass.getProject(), builder.toString(), "Info", Messages.getInformationIcon());
 
-//                int len = methods.length;
+//                int len = BASIC_METHODS_NAME.length;
 //                if (len > 2) {
-//                    PsiElement elem1 = methods[0].getNavigationElement();
-//                    PsiElement elem2 = methods[1].getNavigationElement();
+//                    PsiElement elem1 = BASIC_METHODS_NAME[0].getNavigationElement();
+//                    PsiElement elem2 = BASIC_METHODS_NAME[1].getNavigationElement();
 //                    PsiElement parent = elem1.getParent();
 //                    parent.addAfter(elem1, elem2);
 //                    elem1.getNavigationElement().delete();
@@ -79,6 +89,7 @@ public class Sort extends AnAction {
 
     /**
      * Determine classes that the currently open file contains
+     *
      * @param e the action event that occurred
      * @return array of PsiClass instances
      */
