@@ -3,10 +3,7 @@ package main.com.veontomo.rearrange;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiMethod;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Sorts the fields and methods of the class in a predefined order.
@@ -43,6 +40,36 @@ public class Sorter {
             counter += items.size();
         }
         assert result.length == methods.length;
+        return result;
+    }
+
+    /**
+     * Return methods which names are in the lineup array respecting the order in which they
+     * appear in the lineup.
+     * If their exists a pair of methods m1 and m2 such that
+     * their names are in the lineup array at positions  i1 and i2 respectively,
+     * and i1 < i2, then the positions r1 and r2 of the methods m1 and m2 in the
+     * resulting array must obey the relation:
+     * r1 < r2.
+     *
+     * @param methods array of methods
+     * @param lineup  array of strings defining the order in which the methods must appear in the resulting array
+     * @return methods from the above array whose names are in the lineup; the order is defined above.
+     */
+    public PsiMethod[] lineupFilter(final PsiMethod[] methods, final String[] lineup) {
+        List<PsiMethod> list = new LinkedList<>();
+        for (String methodName : lineup) {
+            for (PsiMethod method : methods) {
+                if (method.getName().equals(methodName)) {
+                    list.add(method);
+                }
+            }
+        }
+        int s = list.size();
+        PsiMethod[] result = new PsiMethod[list.size()];
+        for (int i = 0; i < s; i++) {
+            result[i] = list.get(i);
+        }
         return result;
     }
 
