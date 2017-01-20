@@ -1,10 +1,10 @@
 package main.com.veontomo.rearrange;
 
+import com.intellij.notification.*;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.LangDataKeys;
 import com.intellij.openapi.command.WriteCommandAction;
-import com.intellij.openapi.ui.Messages;
 import com.intellij.psi.*;
 
 
@@ -25,6 +25,8 @@ public class RearrangeAction extends AnAction {
             "onAttach", "onCreate", "onCreateView", "onViewCreated", "onActivityCreated", "onViewStateRestored",
             "onRestart", "onStart", "onResume", "onPause", "onStop", "onDestroyView", "onDestroy", "onDetach"
     };
+
+    private final NotificationGroup NOTIFICATION_GROUP = new NotificationGroup("Rearrange", NotificationDisplayType.NONE, true);
 
     @Override
     public void actionPerformed(AnActionEvent e) {
@@ -58,32 +60,54 @@ public class RearrangeAction extends AnAction {
             @Override
             protected void run() throws Throwable {
                 Sorter sorter = new Sorter();
-                final String separator = System.getProperty("line.separator");
-                StringBuilder builder = new StringBuilder();
+                Notification notification = NOTIFICATION_GROUP.createNotification("ciao", NotificationType.INFORMATION);
+                Notifications.Bus.notify(notification);
                 PsiMethod[] methods = aClass.getMethods();
                 PsiField[] fields = aClass.getFields();
-                PsiMethod[] sorted = sorter.sort(methods, BASIC_METHOD_NAMES);
+                PsiMethod[] sorted = sorter.lineupFilter(methods, BASIC_METHOD_NAMES);
 
+                PsiElement firstElem = getFirstMethodOrField(aClass);
 
-                builder.append("Fields: ");
-                for (PsiField field : fields) {
-                    builder.append(field.getName()).append(", ");
+                if (firstElem == null) return;
+                PsiElement firstNavElem = firstElem.getNavigationElement();
+                PsiElement parent = firstNavElem.getParent();
+                if (parent != null) {
+
+//                    Messages.showMessageDialog(aClass.getProject(), "parent is found", "Info", Messages.getInformationIcon());
+                    for (PsiElement field : fields) {
+                        parent.addBefore(field.getNavigationElement(), firstNavElem);
+                    }
+                    for (PsiElement method : sorted) {
+                        parent.addBefore(method.getNavigationElement(), firstNavElem);
+                    }
+                }
+                for (PsiElement field : fields) {
+                    field.getNavigationElement().delete();
+                }
+                for (PsiElement method : sorted) {
+                    method.getNavigationElement().delete();
                 }
 
-                builder.append(separator).append("Original methods: ");
-                for (PsiMethod method : methods) {
-                    builder.append(method.getName()).append(", ");
-                }
-                builder.append(separator).append("Sorted methods: ");
-                for (PsiMethod method : sorted) {
-                    builder.append(method.getName()).append(", ");
-                }
-                Messages.showMessageDialog(aClass.getProject(), builder.toString(), "Info", Messages.getInformationIcon());
 
-//                int len = BASIC_METHOD_NAMES.length;
+//                builder.append("Fields: ");
+//                for (PsiField field : fields) {
+//                    builder.append(field.getName()).append(", ");
+//                }
+//
+//                builder.append(separator).append("All methods: ");
+//                for (PsiMethod method : methods) {
+//                    builder.append(method.getName()).append(", ");
+//                }
+//                builder.append(separator).append("First methods: ");
+//                for (PsiMethod method : sorted) {
+//                    builder.append(method.getName()).append(", ");
+//                }
+//                Messages.showMessageDialog(aClass.getProject(), builder.toString(), "Info", Messages.getInformationIcon());
+//
+//                int len = methods.length;
 //                if (len > 2) {
-//                    PsiElement elem1 = BASIC_METHOD_NAMES[0].getNavigationElement();
-//                    PsiElement elem2 = BASIC_METHOD_NAMES[1].getNavigationElement();
+//                    PsiElement elem1 = methods[0].getNavigationElement();
+//                    PsiElement elem2 = methods[1].getNavigationElement();
 //                    PsiElement parent = elem1.getParent();
 //                    parent.addAfter(elem1, elem2);
 //                    elem1.getNavigationElement().delete();
@@ -91,6 +115,23 @@ public class RearrangeAction extends AnAction {
 //                }
             }
         }.execute();
+    }
+
+    /**
+     * Return the first child that is either a field or a method.
+     *
+     * @param aClass
+     * @return
+     */
+    private PsiElement getFirstMethodOrField(final PsiClass aClass) {
+        final PsiMethod[] methods = aClass.getMethods();
+        final PsiField[] fields = aClass.getFields();
+        final int methodTotal = methods.length;
+        final int fieldTotal = fields.length;
+        if (methodTotal == 0 && fieldTotal == 0) return null;
+        final int firstMethodOffset = methods[0].getStartOffsetInParent();
+        final int firstFieldOffset = fields[0].getStartOffsetInParent();
+        return (firstFieldOffset > firstMethodOffset) ? methods[0] : fields[0];
     }
 
 
