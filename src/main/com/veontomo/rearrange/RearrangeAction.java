@@ -1,6 +1,5 @@
 package main.com.veontomo.rearrange;
 
-import com.intellij.notification.*;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.LangDataKeys;
@@ -26,7 +25,8 @@ public class RearrangeAction extends AnAction {
             "onRestart", "onStart", "onResume", "onPause", "onStop", "onDestroyView", "onDestroy", "onDetach"
     };
 
-    private final NotificationGroup NOTIFICATION_GROUP = new NotificationGroup("Rearrange", NotificationDisplayType.NONE, true);
+    private final Notification notifier = new Notification("Plugin");
+
 
     @Override
     public void actionPerformed(AnActionEvent e) {
@@ -34,7 +34,7 @@ public class RearrangeAction extends AnAction {
         if (psiClasses != null) {
             elaborateMultipleClasses(psiClasses);
         } else {
-            System.out.println("no class is found");
+            notifier.notify("no class is found");
         }
 
     }
@@ -60,17 +60,7 @@ public class RearrangeAction extends AnAction {
             /**
              * Name of the class that is to be modified
              */
-            private final String CLASS_NAME = aClass.getName();
-
-            /**
-             * Display notification in the IDE window
-             * @param msg text to display
-             */
-            private void notify(final String msg) {
-                final String txt = (msg == null || msg.isEmpty()) ? "(no message)" : msg;
-                Notification notification = NOTIFICATION_GROUP.createNotification(CLASS_NAME + ": " + txt, NotificationType.INFORMATION);
-                Notifications.Bus.notify(notification);
-            }
+            private final Notification notifier = new Notification(aClass.getName());
 
             @Override
             protected void run() throws Throwable {
@@ -81,15 +71,15 @@ public class RearrangeAction extends AnAction {
                 PsiElement firstElem = getFirstMethodOrField(aClass);
 
                 if (firstElem == null) {
-                    notify("Neither method nor field is found");
+                    notifier.notify("Neither method nor field is found");
                     return;
                 }
-                notify("first; " + firstElem.getText());
+                notifier.notify("first; " + firstElem.getText());
                 PsiElement firstNavElem = firstElem.getNavigationElement();
                 PsiElement parent = firstNavElem.getParent();
 
                 if (parent == null) {
-                    notify("No parent is found");
+                    notifier.notify("No parent is found");
                     return;
                 }
                 for (PsiElement field : fields) {
@@ -106,31 +96,6 @@ public class RearrangeAction extends AnAction {
                     method.getNavigationElement().delete();
                 }
 
-
-//                builder.append("Fields: ");
-//                for (PsiField field : fields) {
-//                    builder.append(field.getName()).append(", ");
-//                }
-//
-//                builder.append(separator).append("All methods: ");
-//                for (PsiMethod method : methods) {
-//                    builder.append(method.getName()).append(", ");
-//                }
-//                builder.append(separator).append("First methods: ");
-//                for (PsiMethod method : sorted) {
-//                    builder.append(method.getName()).append(", ");
-//                }
-//                Messages.showMessageDialog(aClass.getProject(), builder.toString(), "Info", Messages.getInformationIcon());
-//
-//                int len = methods.length;
-//                if (len > 2) {
-//                    PsiElement elem1 = methods[0].getNavigationElement();
-//                    PsiElement elem2 = methods[1].getNavigationElement();
-//                    PsiElement parent = elem1.getParent();
-//                    parent.addAfter(elem1, elem2);
-//                    elem1.getNavigationElement().delete();
-//
-//                }
             }
 
             /**
@@ -144,20 +109,16 @@ public class RearrangeAction extends AnAction {
                 final PsiField[] fields = aClass.getFields();
                 final int methodTotal = methods.length;
                 final int fieldTotal = fields.length;
-                notify("methodTotal: " + methodTotal + ", fieldTotal: " + fieldTotal);
                 if (methodTotal == 0 && fieldTotal == 0) return null;
                 if (methodTotal == 0) return fields[0];
                 if (fieldTotal == 0) return methods[0];
                 final int firstMethodOffset = methods[0].getNavigationElement().getStartOffsetInParent();
                 final int firstFieldOffset = fields[0].getNavigationElement().getStartOffsetInParent();
-                notify("field "+ fields[0].getName() +" offset: " + firstFieldOffset);
-                notify("method "+ methods[0].getName() +" offset: " + firstMethodOffset);
                 return (firstFieldOffset > firstMethodOffset) ? methods[0] : fields[0];
             }
         }.execute();
 
     }
-
 
 
     /**
