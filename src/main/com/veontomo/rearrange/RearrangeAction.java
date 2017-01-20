@@ -65,38 +65,8 @@ public class RearrangeAction extends AnAction {
 
             @Override
             protected void run() throws Throwable {
-                Sorter sorter = new Sorter();
-                PsiMethod[] methods = aClass.getMethods();
-                PsiField[] fields = aClass.getFields();
-                PsiMethod[] sorted = sorter.lineupFilter(methods, BASIC_METHOD_NAMES);
-                PsiElement firstElem = sorter.getFirstMethodOrField(aClass);
-
-                if (firstElem == null) {
-                    notifier.notify("Neither method nor field is found");
-                    return;
-                }
-                notifier.notify("first; " + firstElem.getText());
-                PsiElement firstNavElem = firstElem.getNavigationElement();
-                PsiElement parent = firstNavElem.getParent();
-
-                if (parent == null) {
-                    notifier.notify("No parent is found");
-                    return;
-                }
-                for (PsiElement field : fields) {
-                    parent.addBefore(field.getNavigationElement(), firstNavElem);
-                }
-                for (PsiElement method : sorted) {
-                    parent.addBefore(method.getNavigationElement(), firstNavElem);
-                }
-
-                for (PsiElement field : fields) {
-                    field.getNavigationElement().delete();
-                }
-                for (PsiElement method : sorted) {
-                    method.getNavigationElement().delete();
-                }
-
+                Sorter sorter = new Sorter(aClass, BASIC_METHOD_NAMES);
+                sorter.sort();
             }
 
         }.execute();

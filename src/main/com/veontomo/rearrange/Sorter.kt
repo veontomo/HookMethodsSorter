@@ -11,7 +11,8 @@ import com.intellij.psi.PsiMethod
  * 1. basic methods
  * 2. other methods
  */
-class Sorter {
+class Sorter(private val aClass: PsiClass, private val lineup: Array<String>) {
+
 
     /**
      * Return methods which names are in the lineup array respecting the order in which they
@@ -55,6 +56,21 @@ class Sorter {
         val firstMethodOffset = methods[0].navigationElement.startOffsetInParent
         val firstFieldOffset = fields[0].navigationElement.startOffsetInParent
         return if (firstFieldOffset > firstMethodOffset) methods[0] else fields[0]
+    }
+
+    fun sort() {
+        val methods = aClass.methods
+        val fields = aClass.fields
+        val sorted = lineupFilter(methods, lineup)
+        val firstNavElem = getFirstMethodOrField(aClass)?.navigationElement
+        val parent = firstNavElem?.parent
+
+        if (firstNavElem != null && parent != null) {
+            fields.forEach { parent.addBefore(it.navigationElement, firstNavElem) }
+            sorted.forEach { parent.addBefore(it.navigationElement, firstNavElem) }
+            fields.forEach { it.navigationElement.delete() }
+            sorted.forEach { it.navigationElement.delete() }
+        }
     }
 
 }
