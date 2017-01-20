@@ -52,8 +52,8 @@
     </extensions>
 
     <actions>
-        <action id="HookMethodsSorter" class="main.com.veontomo.rearrange.RearrangeAction"
-                text="Hook Methods&#39; Sorter">
+        <action id="Rearrange" class="main.com.veontomo.rearrange.RearrangeAction"
+                text="Line up fields/methods">
             <add-to-group group-id="CodeMenu" anchor="last"/>
             <keyboard-shortcut keymap="$default" first-keystroke="shift ctrl S"/>
         </action>
