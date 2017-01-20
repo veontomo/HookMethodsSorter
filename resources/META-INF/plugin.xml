@@ -54,7 +54,7 @@
     <actions>
         <action id="Rearrange" class="com.veontomo.rearrange.RearrangeAction"
                 text="Line up fields/methods">
-            <add-to-group group-id="CodeMenu" anchor="last"/>
+            <add-to-group group-id="CodeFormatGroup" anchor="last"/>
             <keyboard-shortcut keymap="$default" first-keystroke="shift ctrl S"/>
         </action>
     </actions>
