@@ -20,10 +20,12 @@
         <li>onViewCreated</li>
         <li>onActivityCreated</li>
         <li>onViewStateRestored</li>
+        <li>onRestoreInstanceState</li>
         <li>onRestart</li>
         <li>onStart</li>
         <li>onResume</li>
         <li>onPause</li>
+        <li>onSaveInstanceState</li>
         <li>onStop</li>
         <li>onDestroyView</li>
         <li>onDestroy</li>

@@ -17,7 +17,8 @@ public class RearrangeAction extends AnAction {
      */
     private final String[] BASE_METHOD_NAMES = {
             "onAttach", "onCreate", "onCreateView", "onViewCreated", "onActivityCreated", "onViewStateRestored",
-            "onRestart", "onStart", "onResume", "onPause", "onStop", "onDestroyView", "onDestroy", "onDetach"
+            "onRestoreInstanceState", "onRestart", "onStart", "onResume", "onPause", "onSaveInstanceState", "onStop",
+            "onDestroyView", "onDestroy", "onDetach"
     };
 
     private final Notifier notifier = new Notifier("Rearrange plugin");
