@@ -25,12 +25,13 @@ public class RearrangeAction extends AnAction {
             "onRestart", "onStart", "onResume", "onPause", "onStop", "onDestroyView", "onDestroy", "onDetach"
     };
 
-    private final Notification notifier = new Notification("Plugin");
+    private final Notifier notifier = new Notifier("Plugin");
 
 
     @Override
     public void actionPerformed(AnActionEvent e) {
-        PsiClass[] psiClasses = getPsiClasses(e);
+        final PsiFile psiFile = e.getData(LangDataKeys.PSI_FILE);
+        PsiClass[] psiClasses = getPsiClasses(psiFile);
         if (psiClasses != null) {
             elaborateMultipleClasses(psiClasses);
         } else {
@@ -60,7 +61,7 @@ public class RearrangeAction extends AnAction {
             /**
              * Name of the class that is to be modified
              */
-            private final Notification notifier = new Notification(aClass.getName());
+            private final Notifier notifier = new Notifier(aClass.getName());
 
             @Override
             protected void run() throws Throwable {
@@ -68,7 +69,7 @@ public class RearrangeAction extends AnAction {
                 PsiMethod[] methods = aClass.getMethods();
                 PsiField[] fields = aClass.getFields();
                 PsiMethod[] sorted = sorter.lineupFilter(methods, BASIC_METHOD_NAMES);
-                PsiElement firstElem = getFirstMethodOrField(aClass);
+                PsiElement firstElem = sorter.getFirstMethodOrField(aClass);
 
                 if (firstElem == null) {
                     notifier.notify("Neither method nor field is found");
@@ -98,24 +99,6 @@ public class RearrangeAction extends AnAction {
 
             }
 
-            /**
-             * Return the first child that is either a field or a method.
-             *
-             * @param aClass
-             * @return
-             */
-            private PsiElement getFirstMethodOrField(final PsiClass aClass) {
-                final PsiMethod[] methods = aClass.getMethods();
-                final PsiField[] fields = aClass.getFields();
-                final int methodTotal = methods.length;
-                final int fieldTotal = fields.length;
-                if (methodTotal == 0 && fieldTotal == 0) return null;
-                if (methodTotal == 0) return fields[0];
-                if (fieldTotal == 0) return methods[0];
-                final int firstMethodOffset = methods[0].getNavigationElement().getStartOffsetInParent();
-                final int firstFieldOffset = fields[0].getNavigationElement().getStartOffsetInParent();
-                return (firstFieldOffset > firstMethodOffset) ? methods[0] : fields[0];
-            }
         }.execute();
 
     }
@@ -124,11 +107,10 @@ public class RearrangeAction extends AnAction {
     /**
      * Determine classes that the currently open file contains
      *
-     * @param e the action event that occurred
+     * @param psiFile current psi file
      * @return array of PsiClass instances
      */
-    private PsiClass[] getPsiClasses(AnActionEvent e) {
-        PsiFile psiFile = e.getData(LangDataKeys.PSI_FILE);
+    private PsiClass[] getPsiClasses(final PsiFile psiFile) {
         if (psiFile != null && psiFile instanceof PsiClassOwner) {
             return ((PsiClassOwner) psiFile).getClasses();
         }

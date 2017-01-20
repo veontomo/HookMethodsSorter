@@ -9,17 +9,22 @@ import com.intellij.notification.Notifications
  * Show notifications inside IDE
  * @param origin marker for the messages.
  */
-class Notification(private val origin: String) {
+class Notifier(private val origin: String) {
 
-    private val NOTIFICATION_GROUP = NotificationGroup("Rearrange", NotificationDisplayType.NONE, true)
+    private val GROUP_NAME = "Rearrange"
+
+    private val NOTIFICATION_GROUP = NotificationGroup(GROUP_NAME, NotificationDisplayType.NONE, true)
 
     /**
-     * Display notification in the IDE window
+     * Display a message in the tool window bar.
+     *
+     * The origin of the message is to be prepended to the message.
+     *
      * @param msg text to display
      */
     fun notify(msg: String) {
         val txt = if (msg.isEmpty()) "(no message)" else msg
-        val notification = NOTIFICATION_GROUP.createNotification("$origin: $txt", NotificationType.INFORMATION);
+        val notification = NOTIFICATION_GROUP.createNotification("$origin: $txt", NotificationType.INFORMATION)
         Notifications.Bus.notify(notification)
     }
 }
