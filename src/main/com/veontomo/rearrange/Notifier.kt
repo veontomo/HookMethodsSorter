@@ -1,4 +1,4 @@
-package main.com.veontomo.rearrange
+package com.veontomo.rearrange
 
 import com.intellij.notification.NotificationDisplayType
 import com.intellij.notification.NotificationGroup

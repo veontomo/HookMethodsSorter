@@ -1,16 +1,16 @@
 <idea-plugin version="2">
-    <id>ccm.veontomo.hookmethodssorter.</id>
-    <name>Hook Methods' Sorter</name>
+    <id>ccm.veontomo.rearrange</id>
+    <name>Line up the class lifecycle methods</name>
     <version>1.0</version>
-    <vendor email="" url="">Veontomo</vendor>
+    <vendor email="veontomo@gmail.com" url="">Veontomo</vendor>
 
     <description><![CDATA[
-    The plugin orders fields and Android lifecycle methods of Kotlin and Java classes. After applying the plugin,
-    the class definitions will have the following order:
+    The plugin orders fields and the Android lifecycle methods of Kotlin and Java classes. After applying the plugin,
+    the class declaration is to have the following structure:
     <ol>
-    <li>class fields</li>
-    <li>lifecycle methods</li>
-    <li>other methods</li>
+    <li>field declarations</li>
+    <li>lifecycle method declarations</li>
+    <li>other method declarations</li>
     </ol>
     The lifecycle methods are those of both activities and fragments and become sorted in this order:
     <ol>
@@ -52,7 +52,7 @@
     </extensions>
 
     <actions>
-        <action id="Rearrange" class="main.com.veontomo.rearrange.RearrangeAction"
+        <action id="Rearrange" class="com.veontomo.rearrange.RearrangeAction"
                 text="Line up fields/methods">
             <add-to-group group-id="CodeMenu" anchor="last"/>
             <keyboard-shortcut keymap="$default" first-keystroke="shift ctrl S"/>
