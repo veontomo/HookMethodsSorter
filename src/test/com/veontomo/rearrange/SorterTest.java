@@ -1,19 +1,15 @@
 package test.com.veontomo.rearrange;
 
-import com.intellij.psi.*;
-import main.com.veontomo.rearrange.Sorter;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-
 /**
- * Test suit for Sorter class
+ * Test suit for CanonicalSorter class
  */
 public class SorterTest {
     private final DumbFactory factory = new DumbFactory();
 
     /**
-     * Test a sort method.
+     * Test a execute method.
      * Partition the input as follows:
      * 1. # methods: 0, 1, > 1
      * 2. # indications: 0, 1, > 1
@@ -25,7 +21,7 @@ public class SorterTest {
     // 3. # of overlapping: 0
     @Test
     public void sort_empty_list_with_empty_indications() {
-//        Sorter sorter = new Sorter();
+//        CanonicalSorter sorter = new CanonicalSorter();
 //        PsiElement[] result = sorter.lineupFilter(new PsiMethod[0], new String[0]);
 //        assertEquals(0, result.length);
     }
@@ -36,7 +32,7 @@ public class SorterTest {
     // 3. # of overlapping: 0
     @Test
     public void sort_single_elem_list_with_empty_indications() {
-//        Sorter sorter = new Sorter();
+//        CanonicalSorter sorter = new CanonicalSorter();
 //        PsiMethod method = factory.createMethod("test1");
 //        PsiElement[] result = sorter.lineupFilter(new PsiMethod[]{method}, new String[0]);
 //        assertEquals(0, result.length);
@@ -48,7 +44,7 @@ public class SorterTest {
     // 3. # of overlapping: > 1
     @Test
     public void sort_two_elem_list_with_three_indications() {
-//        Sorter sorter = new Sorter();
+//        CanonicalSorter sorter = new CanonicalSorter();
 //        PsiMethod method1 = factory.createMethod("method1");
 //        PsiMethod method2 = factory.createMethod("method2");
 //        PsiMethod method3 = factory.createMethod("method3");
@@ -68,7 +64,7 @@ public class SorterTest {
     // 3. # of overlapping: > 1
     @Test
     public void sort_two_elem_list_with_three_indications_duplicate_names() {
-//        Sorter sorter = new Sorter();
+//        CanonicalSorter sorter = new CanonicalSorter();
 //        PsiMethod method1 = factory.createMethod("A");
 //        PsiMethod method2 = factory.createMethod("B");
 //        PsiMethod method3 = factory.createMethod("C");
@@ -93,7 +89,7 @@ public class SorterTest {
     // 3. # of overlapping: > 1
     @Test
     public void sort_two_elem_list_with_three_indications_no_duplicate_names() {
-//        Sorter sorter = new Sorter();
+//        CanonicalSorter sorter = new CanonicalSorter();
 //        PsiMethod method1 = factory.createMethod("A");
 //        PsiMethod method2 = factory.createMethod("B");
 //        PsiMethod method3 = factory.createMethod("C");

@@ -10,22 +10,17 @@ import com.intellij.psi.*;
 /**
  * Plugin for rearrange fields and methods of classes found in a file that is currently open in the
  * Intellij IDEA IDE.
- * <p>
- * After applying this plugin, a class must have fields and methods being ordered as follows:
- * 1. fields
- * 2. basic methods
- * 3. other methods
  */
 public class RearrangeAction extends AnAction {
     /**
      * list of basic method names that should be ordered according to their indexes in the array:
      */
-    private final String[] BASIC_METHOD_NAMES = {
+    private final String[] BASE_METHOD_NAMES = {
             "onAttach", "onCreate", "onCreateView", "onViewCreated", "onActivityCreated", "onViewStateRestored",
             "onRestart", "onStart", "onResume", "onPause", "onStop", "onDestroyView", "onDestroy", "onDetach"
     };
 
-    private final Notifier notifier = new Notifier("Plugin");
+    private final Notifier notifier = new Notifier("Rearrange plugin");
 
 
     @Override
@@ -52,23 +47,17 @@ public class RearrangeAction extends AnAction {
     }
 
     /**
-     * Order the class BASIC_METHOD_NAMES in a predefined way.
+     * Make a given class be ordered canonically.
      *
      * @param aClass a class whose methods and fields are to be ordered.
      */
     private void elaborateSingleClass(final PsiClass aClass) {
         new WriteCommandAction.Simple(aClass.getProject(), aClass.getContainingFile()) {
-            /**
-             * Name of the class that is to be modified
-             */
-            private final Notifier notifier = new Notifier(aClass.getName());
-
             @Override
             protected void run() throws Throwable {
-                Sorter sorter = new Sorter(aClass, BASIC_METHOD_NAMES);
-                sorter.sort();
+                CanonicalSorter sorter = new CanonicalSorter(aClass, BASE_METHOD_NAMES);
+                sorter.execute();
             }
-
         }.execute();
 
     }
@@ -85,6 +74,5 @@ public class RearrangeAction extends AnAction {
             return ((PsiClassOwner) psiFile).getClasses();
         }
         return null;
-
     }
 }

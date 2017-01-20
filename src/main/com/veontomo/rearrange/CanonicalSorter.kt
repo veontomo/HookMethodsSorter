@@ -6,13 +6,37 @@ import com.intellij.psi.PsiMethod
 
 
 /**
- * Sorts the fields and methods of the class in a predefined order.
+ * Sort the class fields and methods in the canonical order.
+ *
  * A class is said to be sorted canonically if its fields and methods are in this order:
- * 1. basic methods
+ * 1. fields
+ * 1. base methods
  * 2. other methods
+ *
+ * The order of the base methods is defined by array lineup.
  */
-class Sorter(private val aClass: PsiClass, private val lineup: Array<String>) {
+class CanonicalSorter(private val aClass: PsiClass, private val lineup: Array<String>) {
 
+    /**
+     * Perform the ordering of the class methods and fields.
+     */
+    fun execute() {
+        val methods = aClass.methods
+        val fields = aClass.fields
+        val sorted = lineupFilter(methods, lineup)
+        val pivot = getFirstMethodOrField(aClass)?.navigationElement
+        val parent = pivot?.parent
+
+        if (pivot != null && parent != null) {
+            // place the fields after the pivot
+            fields.forEach { parent.addBefore(it.navigationElement, pivot) }
+            // place the lineup methods after the fields
+            sorted.forEach { parent.addBefore(it.navigationElement, pivot) }
+            // remove the above inserted elements in order to avoid duplicates
+            fields.forEach { it.navigationElement.delete() }
+            sorted.forEach { it.navigationElement.delete() }
+        }
+    }
 
     /**
      * Return methods which names are in the lineup array respecting the order in which they
@@ -58,19 +82,5 @@ class Sorter(private val aClass: PsiClass, private val lineup: Array<String>) {
         return if (firstFieldOffset > firstMethodOffset) methods[0] else fields[0]
     }
 
-    fun sort() {
-        val methods = aClass.methods
-        val fields = aClass.fields
-        val sorted = lineupFilter(methods, lineup)
-        val firstNavElem = getFirstMethodOrField(aClass)?.navigationElement
-        val parent = firstNavElem?.parent
-
-        if (firstNavElem != null && parent != null) {
-            fields.forEach { parent.addBefore(it.navigationElement, firstNavElem) }
-            sorted.forEach { parent.addBefore(it.navigationElement, firstNavElem) }
-            fields.forEach { it.navigationElement.delete() }
-            sorted.forEach { it.navigationElement.delete() }
-        }
-    }
 
 }
