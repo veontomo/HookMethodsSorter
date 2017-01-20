@@ -53,34 +53,52 @@ public class RearrangeAction extends AnAction {
     /**
      * Order the class BASIC_METHOD_NAMES in a predefined way.
      *
-     * @param aClass a class whose BASIC_METHOD_NAMES/properties are to be ordered.
+     * @param aClass a class whose methods and fields are to be ordered.
      */
     private void elaborateSingleClass(final PsiClass aClass) {
         new WriteCommandAction.Simple(aClass.getProject(), aClass.getContainingFile()) {
+            /**
+             * Name of the class that is to be modified
+             */
+            private final String CLASS_NAME = aClass.getName();
+
+            /**
+             * Display notification in the IDE window
+             * @param msg text to display
+             */
+            private void notify(final String msg) {
+                final String txt = (msg == null || msg.isEmpty()) ? "(no message)" : msg;
+                Notification notification = NOTIFICATION_GROUP.createNotification(CLASS_NAME + ": " + txt, NotificationType.INFORMATION);
+                Notifications.Bus.notify(notification);
+            }
+
             @Override
             protected void run() throws Throwable {
                 Sorter sorter = new Sorter();
-                Notification notification = NOTIFICATION_GROUP.createNotification("ciao", NotificationType.INFORMATION);
-                Notifications.Bus.notify(notification);
                 PsiMethod[] methods = aClass.getMethods();
                 PsiField[] fields = aClass.getFields();
                 PsiMethod[] sorted = sorter.lineupFilter(methods, BASIC_METHOD_NAMES);
-
                 PsiElement firstElem = getFirstMethodOrField(aClass);
 
-                if (firstElem == null) return;
+                if (firstElem == null) {
+                    notify("Neither method nor field is found");
+                    return;
+                }
+                notify("first; " + firstElem.getText());
                 PsiElement firstNavElem = firstElem.getNavigationElement();
                 PsiElement parent = firstNavElem.getParent();
-                if (parent != null) {
 
-//                    Messages.showMessageDialog(aClass.getProject(), "parent is found", "Info", Messages.getInformationIcon());
-                    for (PsiElement field : fields) {
-                        parent.addBefore(field.getNavigationElement(), firstNavElem);
-                    }
-                    for (PsiElement method : sorted) {
-                        parent.addBefore(method.getNavigationElement(), firstNavElem);
-                    }
+                if (parent == null) {
+                    notify("No parent is found");
+                    return;
                 }
+                for (PsiElement field : fields) {
+                    parent.addBefore(field.getNavigationElement(), firstNavElem);
+                }
+                for (PsiElement method : sorted) {
+                    parent.addBefore(method.getNavigationElement(), firstNavElem);
+                }
+
                 for (PsiElement field : fields) {
                     field.getNavigationElement().delete();
                 }
@@ -114,25 +132,32 @@ public class RearrangeAction extends AnAction {
 //
 //                }
             }
+
+            /**
+             * Return the first child that is either a field or a method.
+             *
+             * @param aClass
+             * @return
+             */
+            private PsiElement getFirstMethodOrField(final PsiClass aClass) {
+                final PsiMethod[] methods = aClass.getMethods();
+                final PsiField[] fields = aClass.getFields();
+                final int methodTotal = methods.length;
+                final int fieldTotal = fields.length;
+                notify("methodTotal: " + methodTotal + ", fieldTotal: " + fieldTotal);
+                if (methodTotal == 0 && fieldTotal == 0) return null;
+                if (methodTotal == 0) return fields[0];
+                if (fieldTotal == 0) return methods[0];
+                final int firstMethodOffset = methods[0].getNavigationElement().getStartOffsetInParent();
+                final int firstFieldOffset = fields[0].getNavigationElement().getStartOffsetInParent();
+                notify("field "+ fields[0].getName() +" offset: " + firstFieldOffset);
+                notify("method "+ methods[0].getName() +" offset: " + firstMethodOffset);
+                return (firstFieldOffset > firstMethodOffset) ? methods[0] : fields[0];
+            }
         }.execute();
+
     }
 
-    /**
-     * Return the first child that is either a field or a method.
-     *
-     * @param aClass
-     * @return
-     */
-    private PsiElement getFirstMethodOrField(final PsiClass aClass) {
-        final PsiMethod[] methods = aClass.getMethods();
-        final PsiField[] fields = aClass.getFields();
-        final int methodTotal = methods.length;
-        final int fieldTotal = fields.length;
-        if (methodTotal == 0 && fieldTotal == 0) return null;
-        final int firstMethodOffset = methods[0].getStartOffsetInParent();
-        final int firstFieldOffset = fields[0].getStartOffsetInParent();
-        return (firstFieldOffset > firstMethodOffset) ? methods[0] : fields[0];
-    }
 
 
     /**
