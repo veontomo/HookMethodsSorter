@@ -5,8 +5,31 @@
     <vendor email="" url="">Veontomo</vendor>
 
     <description><![CDATA[
-    The plugin orders well-known methods (hook ones), like <em>onStart</em>, <em>onCreate</em> etc. for Android apps.
-    It is inspired by <a href="https://github.com/armandAkop/Lifecycle-Sorter">Lifecycle Sorter for Android Studio</a> plugin.
+    The plugin orders fields and Android lifecycle methods of Kotlin and Java classes. After applying the plugin,
+    the class definitions will have the following order:
+    <ol>
+    <li>class fields</li>
+    <li>lifecycle methods</li>
+    <li>other methods</li>
+    </ol>
+    The lifecycle methods are those of both activities and fragments and become sorted in this order:
+    <ol>
+        <li>onAttach</li>
+        <li>onCreate</li>
+        <li>onCreateView</li>
+        <li>onViewCreated</li>
+        <li>onActivityCreated</li>
+        <li>onViewStateRestored</li>
+        <li>onRestart</li>
+        <li>onStart</li>
+        <li>onResume</li>
+        <li>onPause</li>
+        <li>onStop</li>
+        <li>onDestroyView</li>
+        <li>onDestroy</li>
+        <li>onDetach</li>
+    </ol>
+    The idea of this plugin is inspired by <a href="https://github.com/armandAkop/Lifecycle-Sorter">Lifecycle Sorter for Android Studio</a> one.
     ]]></description>
 
     <change-notes><![CDATA[
@@ -27,7 +50,8 @@
     </extensions>
 
     <actions>
-        <action id="HookMethodsSorter" class="main.com.veontomo.rearrange.RearrangeAction" text="Hook Methods&#39; Sorter">
+        <action id="HookMethodsSorter" class="main.com.veontomo.rearrange.RearrangeAction"
+                text="Hook Methods&#39; Sorter">
             <add-to-group group-id="CodeMenu" anchor="last"/>
             <keyboard-shortcut keymap="$default" first-keystroke="shift ctrl S"/>
         </action>
