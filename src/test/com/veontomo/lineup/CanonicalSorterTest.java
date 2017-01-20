@@ -28,7 +28,7 @@ public class CanonicalSorterTest {
     @Test
     public void sort_empty_list_with_empty_indications() {
         CanonicalSorter sorter = new CanonicalSorter(factory.createClass("aClass"), new String[0]);
-        PsiElement[] result = sorter.lineupFilter(new PsiMethod[0], new String[0]);
+        PsiElement[] result = sorter.lineupFilter(new PsiMethod[0]);
         assertEquals(0, result.length);
     }
 
@@ -40,7 +40,7 @@ public class CanonicalSorterTest {
     public void sort_single_elem_list_with_empty_indications() {
         CanonicalSorter sorter = new CanonicalSorter(factory.createClass("DumbClass"), new String[0]);
         PsiMethod method = factory.createMethod("test1");
-        PsiElement[] result = sorter.lineupFilter(new PsiMethod[]{method}, new String[0]);
+        PsiElement[] result = sorter.lineupFilter(new PsiMethod[]{method});
         assertEquals(0, result.length);
     }
 
@@ -50,14 +50,11 @@ public class CanonicalSorterTest {
     // 3. # of overlapping: > 1
     @Test
     public void sort_two_elem_list_with_three_indications() {
-        CanonicalSorter sorter = new CanonicalSorter(factory.createClass("DumbClass"), new String[0]);
+        CanonicalSorter sorter = new CanonicalSorter(factory.createClass("DumbClass"), new String[]{"method2", "method3", "method1"});
         PsiMethod method1 = factory.createMethod("method1");
         PsiMethod method2 = factory.createMethod("method2");
         PsiMethod method3 = factory.createMethod("method3");
-        PsiElement[] result = sorter.lineupFilter(
-                new PsiMethod[]{method1, method2, method3},
-                new String[]{"method2", "method3", "method1"}
-        );
+        PsiElement[] result = sorter.lineupFilter(new PsiMethod[]{method1, method2, method3});
         assertEquals(3, result.length);
         assertEquals(method2, result[0]);
         assertEquals(method3, result[1]);
@@ -70,16 +67,14 @@ public class CanonicalSorterTest {
     // 3. # of overlapping: > 1
     @Test
     public void sort_two_elem_list_with_three_indications_duplicate_names() {
-        CanonicalSorter sorter = new CanonicalSorter(factory.createClass("DumbClass"), new String[0]);
+        CanonicalSorter sorter = new CanonicalSorter(factory.createClass("DumbClass"),
+                new String[]{"A", "ZZZ", "C", "B"});
         PsiMethod method1 = factory.createMethod("A");
         PsiMethod method2 = factory.createMethod("B");
         PsiMethod method3 = factory.createMethod("C");
         PsiMethod method4 = factory.createMethod("A");
         PsiMethod method5 = factory.createMethod("C");
-        PsiElement[] result = sorter.lineupFilter(
-                new PsiMethod[]{method1, method2, method3, method4, method5},
-                new String[]{"A", "ZZZ", "C", "B"}
-        );
+        PsiElement[] result = sorter.lineupFilter(new PsiMethod[]{method1, method2, method3, method4, method5});
         assertEquals(5, result.length);
 //         the first elements must be (method1, method4) in either order
         assertTrue((result[0] == method1 && result[1] == method4) || (result[0] == method4 && result[1] == method1));
@@ -95,16 +90,13 @@ public class CanonicalSorterTest {
     // 3. # of overlapping: > 1
     @Test
     public void sort_two_elem_list_with_three_indications_no_duplicate_names() {
-        CanonicalSorter sorter = new CanonicalSorter(factory.createClass("DumbClass"), new String[0]);
+        CanonicalSorter sorter = new CanonicalSorter(factory.createClass("DumbClass"), new String[]{"D", "B"});
         PsiMethod method1 = factory.createMethod("A");
         PsiMethod method2 = factory.createMethod("B");
         PsiMethod method3 = factory.createMethod("C");
         PsiMethod method4 = factory.createMethod("D");
         PsiMethod method5 = factory.createMethod("E");
-        PsiElement[] result = sorter.lineupFilter(
-                new PsiMethod[]{method1, method2, method3, method4, method5},
-                new String[]{"D", "B"}
-        );
+        PsiElement[] result = sorter.lineupFilter(new PsiMethod[]{method1, method2, method3, method4, method5});
         assertEquals(2, result.length);
         assertEquals(method4, result[0]);
         assertEquals(method2, result[1]);

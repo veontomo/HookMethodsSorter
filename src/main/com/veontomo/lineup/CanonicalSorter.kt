@@ -23,7 +23,7 @@ class CanonicalSorter(private val aClass: PsiClass, private val lineup: Array<St
     fun execute() {
         val methods = aClass.methods
         val fields = aClass.fields
-        val sorted = lineupFilter(methods, lineup)
+        val sorted = lineupFilter(methods)
         val pivot = getFirstMethodOrField(aClass)?.navigationElement
         val parent = pivot?.parent
 
@@ -48,12 +48,10 @@ class CanonicalSorter(private val aClass: PsiClass, private val lineup: Array<St
      * r1 < r2.
 
      * @param methods array of methods
-     * *
-     * @param lineup  array of strings defining the order in which the methods must appear in the resulting array
-     * *
+     *
      * @return methods from the above array whose names are in the lineup; the order is defined above.
      */
-    fun lineupFilter(methods: Array<PsiMethod>, lineup: Array<String>): Array<PsiMethod> {
+    fun lineupFilter(methods: Array<PsiMethod>): Array<PsiMethod> {
         val list = mutableListOf<PsiMethod>()
         for (methodName in lineup) {
             methods.forEach { if (it.name == methodName) list.add(it) }
