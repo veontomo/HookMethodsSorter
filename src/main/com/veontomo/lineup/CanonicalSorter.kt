@@ -1,4 +1,4 @@
-package com.veontomo.rearrange
+package com.veontomo.lineup
 
 import com.intellij.psi.PsiClass
 import com.intellij.psi.PsiElement

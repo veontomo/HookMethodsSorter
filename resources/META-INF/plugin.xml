@@ -1,11 +1,11 @@
 <idea-plugin version="2">
-    <id>ccm.veontomo.rearrange</id>
+    <id>ccm.veontomo.lineup</id>
     <name>Line up the class lifecycle methods</name>
-    <version>1.0</version>
+    <version>0.1</version>
     <vendor email="veontomo@gmail.com" url="">Veontomo</vendor>
 
     <description><![CDATA[
-    The plugin orders fields and the Android lifecycle methods of Kotlin and Java classes. After applying the plugin,
+    The plugin lines up fields and the Android lifecycle methods of Kotlin and Java classes. After applying the plugin,
     the class declaration is to have the following structure:
     <ol>
     <li>field declarations</li>
@@ -52,7 +52,7 @@
     </extensions>
 
     <actions>
-        <action id="Rearrange" class="com.veontomo.rearrange.RearrangeAction"
+        <action id="Rearrange" class="com.veontomo.lineup.RearrangeAction"
                 text="Line up fields/methods">
             <add-to-group group-id="CodeFormatGroup" anchor="last"/>
             <keyboard-shortcut keymap="$default" first-keystroke="shift ctrl S"/>
