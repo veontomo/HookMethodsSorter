@@ -2,7 +2,7 @@
     <id>ccm.veontomo.lineup</id>
     <name>Line up the class lifecycle methods</name>
     <version>0.1</version>
-    <vendor email="veontomo@gmail.com" url="">Veontomo</vendor>
+    <vendor email="veontomo@gmail.com" url="https://veontomo.github.io/Lineup/">Andrey Shcherbakov</vendor>
 
     <description><![CDATA[
     The plugin lines up fields and the Android lifecycle methods of Kotlin and Java classes. After applying the plugin,
@@ -39,12 +39,14 @@
     </change-notes>
 
     <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html for description -->
-    <idea-version since-build="145.0"/>
+    <idea-version since-build="162"/>
 
     <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
          on how to target different products -->
-    <!-- uncomment to enable plugin in all products
-    <depends>com.intellij.modules.lang</depends>
+    <!--&lt;!&ndash; uncomment to enable plugin in all products-->
+    <!--<depends>com.intellij.modules.lang</depends>-->
+    <depends>com.intellij.modules.java</depends>
+    <depends>com.intellij.modules.androidstudio</depends>
     -->
 
     <extensions defaultExtensionNs="com.intellij">
