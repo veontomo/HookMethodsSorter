@@ -6,7 +6,6 @@ import com.intellij.openapi.actionSystem.LangDataKeys;
 import com.intellij.openapi.command.WriteCommandAction;
 import com.intellij.psi.*;
 
-
 /**
  * Plugin for rearrange fields and methods of classes found in a file that is currently open in the
  * Intellij IDEA IDE.
