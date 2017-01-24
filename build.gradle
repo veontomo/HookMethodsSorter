@@ -11,10 +11,9 @@ buildscript {
 }
 
 apply plugin: "kotlin"
-
 sourceSets {
-//    main.kotlin.srcDirs += 'src/main/'
-//    main.java.srcDirs += 'src/main/'
+    main.java.srcDirs += 'src/main/com/veontomo/lineup'
+    main.kotlin.srcDirs += 'src/main/com/veontomo/lineup'
 }
 repositories {
     mavenCentral()
@@ -24,6 +23,9 @@ dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     compile "org.jetbrains.kotlin:kotlin-runtime:$kotlin_version"
     compile "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
+    compile "org.jetbrains.kotlin.kotlin-compiler:$kotlin_version"
+    compile "org.jetbrains.kotlin.kotlin-project:$kotlin_version"
+    compile "org.jetbrains.kotlin.kotlin-build-common:$kotlin_version"
     testCompile "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
     testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
 }

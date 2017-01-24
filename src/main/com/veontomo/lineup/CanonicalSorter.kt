@@ -27,7 +27,6 @@ class CanonicalSorter(private val aClass: PsiClass, private val lineup: Array<St
         val sorted = lineupFilter(methods)
         val pivot = getFirstMethodOrField(aClass)?.navigationElement
         val parent = pivot?.parent
-
         if (pivot != null && parent != null) {
             // place the fields after the pivot
             for (field in fields) {
