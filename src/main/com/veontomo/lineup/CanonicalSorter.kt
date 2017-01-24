@@ -3,6 +3,7 @@ package com.veontomo.lineup
 import com.intellij.psi.PsiClass
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiMethod
+import org.jetbrains.kotlin.asJava.elements.KtLightElement
 
 
 /**
@@ -29,10 +30,21 @@ class CanonicalSorter(private val aClass: PsiClass, private val lineup: Array<St
 
         if (pivot != null && parent != null) {
             // place the fields after the pivot
+            for (field in fields) {
+                try {
+                    if (field != null) {
+                        parent.addBefore(field.navigationElement, pivot)
+                    } else {
+                        Notifier("cycle").notify("field is null")
+                    }
+                } catch(e: Exception) {
+                    Notifier("cycle").notify("field: ${field.text}, parent: ${parent.text}, exception: ${e.message}")
+                }
+            }
             fields.forEach { parent.addBefore(it.navigationElement, pivot) }
-            // place the lineup methods after the fields
+//             place the lineup methods after the fields
             sorted.forEach { parent.addBefore(it.navigationElement, pivot) }
-            // remove the above inserted elements in order to avoid duplicates
+//             remove the above inserted elements in order to avoid duplicates
             fields.forEach { it.navigationElement.delete() }
             sorted.forEach { it.navigationElement.delete() }
         }
