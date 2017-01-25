@@ -6,6 +6,7 @@ import com.intellij.psi.PsiMethod
 import org.jetbrains.kotlin.asJava.elements.KtLightElement
 
 
+
 /**
  * Sort the class fields and methods in the canonical order.
  *
